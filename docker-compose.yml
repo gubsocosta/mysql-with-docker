@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  db:
+    env_file: ./.env 
+    image: "mysql:${MYSQL_IMAGE_VERSION}"
+    container_name: ${MYSQL_CONTAINER_NAME}
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    tty: true
+    stdin_open: true
+    ports: 
+      - "${MYSQL_PORT}:3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./data:/var/lib/mysql
+
+  adminer:
+    env_file: ./.env 
+    image: "adminer:${ADMINER_IMAGE_VERSION}"
+    container_name: ${ADMINER_CONTAINER_NAME}
+    restart: always
+    ports:
+      - "${ADMINER_PORT}:8080"
